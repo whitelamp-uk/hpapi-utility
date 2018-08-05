@@ -7,8 +7,8 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `hpapiUUID`$$
 CREATE PROCEDURE `hpapiUUID`(
-  IN        `dateYyyymmdd` INT(8) UNSIGNED
- ,IN        `timeHhmmss` INT(6) UNSIGNED
+  IN        `dateYyyymmdd` CHAR(8) CHARSET ascii
+ ,IN        `timeHhmmss` CHAR(6) CHARSET ascii
 )
 BEGIN
   SELECT

@@ -50,13 +50,13 @@ class Utility {
 
     public function sprs ( ) {
         if (!in_array($this->hpapi->object->key,$this->hpapi->diagnosticKeys)) {
-            return HPAPI_DIAGNOSTIC_ONLY;
+            return HPAPI_STR_DIAGNOSTIC_ONLY;
         }
         return $this->hpapi->sprs;
     }
 
-    public function uuid ($yyyymmdd=null,$hhmmss=null) {
-        if (!$yyyymmdd) {
+    public function uuid ($yyyymmdd='',$hhmmss='') {
+        if (!strlen($yyyymmdd)) {
             $yyyymmdd                           = $this->hpapi->datetime->format ('Ymd');
             $hhmmss                             = $this->hpapi->datetime->format ('His');
         }
