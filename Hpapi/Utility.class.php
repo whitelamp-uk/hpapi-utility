@@ -55,10 +55,10 @@ class Utility {
         return $this->hpapi->sprs;
     }
 
-    public function uuid ($yyyymmdd='',$hhmmss='') {
+    public function uuid ($yyyymmdd,$hhmmss) {
         if (!strlen($yyyymmdd)) {
-            $yyyymmdd                           = $this->hpapi->datetime->format ('Ymd');
-            $hhmmss                             = $this->hpapi->datetime->format ('His');
+            $yyyymmdd                           = $this->hpapi->logtime->format ('Ymd');
+            $hhmmss                             = $this->hpapi->logtime->format ('His');
         }
         try {
             $uuid                               = $this->hpapi->dbCall (
