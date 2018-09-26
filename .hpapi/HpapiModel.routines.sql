@@ -9,30 +9,22 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `hpapiMethods`$$
 CREATE PROCEDURE `hpapiMethods`(
-  IN        `userUUID` CHAR(52) CHARSET ascii
+  IN        `userID` INT(11) UNSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN
   SELECT
-    GROUP_CONCAT(DISTINCT `membership_Usergroup` SEPARATOR ',') AS `usergroups`
-   ,`method_Vendor` AS `vendor`
-   ,`method_Package` AS `package` 
-   ,`method_Class` AS `class`
-   ,`method_Method` AS `method`
-   ,`method_Label` AS `label`
-   ,`method_Notes` AS `notes`
+    GROUP_CONCAT(DISTINCT `membership`.`usergroup` SEPARATOR ',') AS `usergroups`
+   ,`vendor`,`package`,`class`,`method`
+   ,`label`,`notes`
   FROM `hpapi_method`
-  LEFT JOIN `hpapi_run`
-         ON `run_Vendor`=`method_Vendor`
-        AND `run_Package`=`method_Package`
-        AND `run_Class`=`method_Class`
-        AND `run_Method`=`method_Method`
+  LEFT JOIN `hpapi_run` USING (`vendor`,`package`,`class`,`method`)
   LEFT JOIN `hpapi_membership`
          ON authenticated>'0'
-        AND `membership_Usergroup`=`run_Usergroup`
-        AND `membership_User_UUID`=userUUID
-  WHERE `membership_User_UUID` IS NOT NULL
-     OR `run_Usergroup`='anon'
+        AND `hpapi_membership`.`usergroup`=`hpapi_run`.`usergroup`
+        AND `hpapi_membership`.`user_id`=userID
+  WHERE `hpapi_membership`.`user_id` IS NOT NULL
+     OR `hpapi_run`.`usergroup`='anon'
   GROUP BY `vendor`,`package`,`class`,`method`
   ORDER BY `vendor`,`package`,`class`,`method`
   ;
@@ -41,29 +33,28 @@ END$$
 
 DROP PROCEDURE IF EXISTS `hpapiUsergroups`$$
 CREATE PROCEDURE `hpapiUsergroups`(
-  IN        `userUUID` CHAR(52) CHARSET ascii
+  IN        `userID` CHAR(52) CHARSET ascii
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN
   SELECT
-    `usergroup_Usergroup` AS `usergroup`
-   ,`usergroup_Name` AS `name` 
-   ,`level_Name` AS `securityLevel`
-   ,`level_Notes` AS `securityNotes`
+    `hpapi_usergroup`.`usergroup`
+   ,`hpapi_usergroup`.`name` AS `name` 
+   ,`hpapi_level`.`name` AS `securityLevel`
+   ,`level`.`notes` AS `securityNotes`
   FROM `hpapi_usergroup`
   LEFT JOIN `hpapi_membership`
-         ON `membership_Usergroup`=`usergroup_Usergroup`
+         ON `hpapi_membership`.`usergroup`=`hpapi_usergroup`.`usergroup`
         AND (
-             `membership_Usergroup`='anon'
+             `hpapi_membership`.`usergroup`='anon'
           OR (
                authenticated>'0'
-           AND `membership_User_UUID`=userUUID
+           AND `hpapi_membership`.`user_id`=userID
           )
         )
-  LEFT JOIN `hpapi_level`
-         ON `level_Level`=`usergroup_Level`
-  WHERE `membership_Usergroup` IS NOT NULL
-  ORDER BY `level_Level`
+  LEFT JOIN `hpapi_level` USING (`level`)
+  WHERE `hpapi_membership`.`usergroup` IS NOT NULL
+  ORDER BY `hpapi_level`.`level`
   ;
 END$$
 
