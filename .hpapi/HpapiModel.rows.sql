@@ -49,5 +49,31 @@ INSERT IGNORE INTO `hpapi_spr` (`model`, `spr`, `notes`) VALUES
 ('HpapiModel',	'hpapiMethods',	'List of methods for a user UUID (authenticated or not).'),
 ('HpapiModel',	'hpapiSprargs',	'List of stored procedure arguments for a given method.'),
 ('HpapiModel',	'hpapiUsergroups',	'Usergroups for a user UUID.'),
-('HpapiModel',	'hpapiUUID',	'Return UUID based on YYMMDD, HHMMSS and UUID v4.');
+('HpapiModel',	'hpapiUUID',	'Return UUID');
+
+INSERT IGNORE INTO `hpapi_sprarg` (`model`, `spr`, `argument`, `name`, `empty_allowed`, `pattern`) VALUES
+('HpapiModel',	'hpapiAuthenticate',	1,	'API key',	1,	'uuid-hpapi'),
+('HpapiModel',	'hpapiAuthenticate',	2,	'Email address',	1,	'email'),
+('HpapiModel',	'hpapiAuthenticate',	3,	'Hashed password',	1,	'varchar-255'),
+('HpapiModel',	'hpapiAuthenticate',	4,	'Vendor handle',	0,	'vendor'),
+('HpapiModel',	'hpapiAuthenticate',	5,	'Package handle',	0,	'package'),
+('HpapiModel',	'hpapiAuthenticate',	6,	'Class (including namespace)',	0,	'class'),
+('HpapiModel',	'hpapiAuthenticate',	7,	'Method',	0,	'method'),
+('HpapiModel',	'hpapiMethodargs',	1,	'API key',	0,	'uuid-hpapi'),
+('HpapiModel',	'hpapiMethodargs',	2,	'Email',	1,	'email'),
+('HpapiModel',	'hpapiMethodargs',	3,	'Vendor',	0,	'vendor'),
+('HpapiModel',	'hpapiMethodargs',	4,	'Package',	0,	'package'),
+('HpapiModel',	'hpapiMethodargs',	5,	'Class',	0,	'class'),
+('HpapiModel',	'hpapiMethodargs',	6,	'Method',	0,	'method'),
+('HpapiModel',	'hpapiMethods',	1,	'User UUID',	0,	'uuid-hpapi'),
+('HpapiModel',	'hpapiMethods',	2,	'Fully authenticated?',	0,	'db-boolean'),
+('HpapiModel',	'hpapiSprargs',	1,	'Vendor handle',	0,	'vendor'),
+('HpapiModel',	'hpapiSprargs',	2,	'Package handle',	0,	'package'),
+('HpapiModel',	'hpapiSprargs',	3,	'Class (including namespace)',	0,	'class'),
+('HpapiModel',	'hpapiSprargs',	4,	'Method',	0,	'method'),
+('HpapiModel',	'hpapiUsergroups',	1,	'User UUID',	0,	'uuid-hpapi'),
+('HpapiModel',	'hpapiUsergroups',	2,	'Fully authenticated?',	0,	'db-boolean'),
+('HpapiModel',	'hpapiUUID',	1,	'Date (yyyymmdd)',	0,	'yyyymmdd'),
+('HpapiModel',	'hpapiUUID',	2,	'Time (hhmmss)',	0,	'hhmmss');
+
 
