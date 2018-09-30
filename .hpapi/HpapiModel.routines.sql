@@ -61,12 +61,10 @@ END$$
 
 DROP PROCEDURE IF EXISTS `hpapiUUID`$$
 CREATE PROCEDURE `hpapiUUID`(
-  IN        `dateYyyymmdd` CHAR(8) CHARSET ascii
- ,IN        `timeHhmmss` CHAR(6) CHARSET ascii
 )
 BEGIN
   SELECT
-    CONCAT (`dateYyyymmdd`,`timeHhmmss`,'::',UUID()) AS `uuid`
+    UUID() AS `uuid`
   ;
 END$$
 
