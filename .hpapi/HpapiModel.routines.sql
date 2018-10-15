@@ -7,8 +7,8 @@ DELIMITER $$
 
 
 
-DROP PROCEDURE IF EXISTS `hpapiMethods`$$
-CREATE PROCEDURE `hpapiMethods`(
+DROP PROCEDURE IF EXISTS `hpapiMyMethods`$$
+CREATE PROCEDURE `hpapiMyMethods`(
   IN        `userID` INT(11) UNSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
@@ -31,9 +31,9 @@ BEGIN
 END$$
 
 
-DROP PROCEDURE IF EXISTS `hpapiUsergroups`$$
-CREATE PROCEDURE `hpapiUsergroups`(
-  IN        `userID` CHAR(52) CHARSET ascii
+DROP PROCEDURE IF EXISTS `hpapiMyUsergroups`$$
+CREATE PROCEDURE `hpapiMyUsergroups`(
+  IN        `userID` INT(11) UNBSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN

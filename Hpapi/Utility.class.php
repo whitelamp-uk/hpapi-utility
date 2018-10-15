@@ -14,30 +14,58 @@ class Utility {
     }
 
     public function describeMethod ($vendor,$package,$class,$method) {
-        try {
-            $methodargs                         = $this->hpapi->dbCall (
-                'hpapiMethodargs'
-               ,$this->hpapi->object->key
-               ,$this->hpapi->object->email
-               ,$vendor
-               ,$package
-               ,$class
-               ,$method
-            );
+        $privilege                              = false;
+        if (HPAPI_PRIVILEGES_DYNAMIC) {
+            try {
+                $privilege                      = $this->hpapi->callPrivileges ();
+            }
+            catch (\Exception $e) {
+                throw new \Exception ($e->getMessage());
+                return false;
+            }
         }
-        catch (\Exception $e) {
-            throw new \Exception ($e->getMessage());
+        elseif (is_readable(HPAPI_PRIVILEGES_FILE)) {
+             $privilege                         = require HPAPI_PRIVILEGES_FILE;
+        }
+        if (!is_array($privilege)) {
+            throw new \Exception (HPAPI_STR_PRIV_READ);
             return false;
         }
-        return $this->hpapi->parseAuthMethod ($methodargs);
+        $m                                      = $vendor;
+        $m                                     .= '::';
+        $m                                     .= $package;
+        $m                                     .= '::';
+        $m                                     .= $class;
+        $m                                     .= '::';
+        $m                                     .= $method;
+        if (!array_key_exists($m,$privilege)) {
+            throw new \Exception (HPAPI_STR_DB_MTD_ACCESS);
+            return false;
+        }
+        $privilege                              = $privilege[$m];
+        if (in_array('sysadmin',$this->usergroups) || in_array('admin',$this->usergroups)) {
+            return $privilege
+        }
+        unset $privilege['sprs'];
+        unset $privilege['usergroups'];
+        $access                                     = false;
+        foreach ($privileges[$m]['usergroups'] as $privg) {
+            foreach ($this->usergroups as $authg) {
+                if ($authg['usergroup']==$privg) {
+                    return $privilege;
+                }
+            }
+        }
+        throw new \Exception (HPAPI_STR_DB_MTD_ACCESS);
+        return false;
     }
 
-    public function methods ( ) {
+    public function myMethods ( ) {
         $authenticated                          = intval (strlen($this->hpapi->object->email)>0);
         try {
             $methods                            = $this->hpapi->dbCall (
-                'hpapiMethods'
-               ,$this->hpapi->userUUID
+                'hpapiMyMethods'
+               ,$this->hpapi->userID
                ,$authenticated
             );
         }
@@ -48,11 +76,24 @@ class Utility {
         return $this->hpapi->parse2D ($methods);
     }
 
-    public function sprs ( ) {
-        if (!in_array($this->hpapi->object->key,$this->hpapi->diagnosticKeys)) {
-            return HPAPI_STR_DIAGNOSTIC_ONLY;
+    public function myUsergroups ( ) {
+        $authenticated                          = intval (strlen($this->hpapi->object->email)>0);
+        try {
+            $usergroups                         = $this->hpapi->dbCall (
+                'hpapiMyUsergroups'
+               ,$this->hpapi->userID
+               ,$authenticated
+            );
         }
-        return $this->hpapi->sprs;
+        catch (\Exception $e) {
+            throw new \Exception ($e->getMessage());
+            return false;
+        }
+        return $this->hpapi->parse2D ($usergroups);
+    }
+
+    public function usergroups ( ) {
+        return $this->hpapi->usergroups;
     }
 
     public function uuid ($yyyymmdd,$hhmmss) {
@@ -72,22 +113,6 @@ class Utility {
             return false;
         }
         return $uuid[0]['uuid'];
-    }
-
-    public function usergroups ( ) {
-        $authenticated                          = intval (strlen($this->hpapi->object->email)>0);
-        try {
-            $usergroups                         = $this->hpapi->dbCall (
-                'hpapiUsergroups'
-               ,$this->hpapi->userUUID
-               ,$authenticated
-            );
-        }
-        catch (\Exception $e) {
-            throw new \Exception ($e->getMessage());
-            return false;
-        }
-        return $this->hpapi->parse2D ($usergroups);
     }
 
 }
