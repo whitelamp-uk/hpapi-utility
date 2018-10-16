@@ -33,7 +33,7 @@ INSERT IGNORE INTO `hpapi_sprarg` (`model`, `spr`, `argument`, `name`, `empty_al
 ('HpapiModel',	'hpapiUUID',	2,	'Time (hhmmss)',	0,	'hhmmss');
 
 INSERT IGNORE INTO `hpapi_run` (`usergroup`, `vendor`, `package`, `class`, `method`) VALUES
-('admin',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'usergroups');
+('admin',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'usergroups'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'describeMethod'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myMethods'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myUsergroups'),
