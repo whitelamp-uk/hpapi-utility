@@ -33,7 +33,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `hpapiMyUsergroups`$$
 CREATE PROCEDURE `hpapiMyUsergroups`(
-  IN        `userID` INT(11) UNBSIGNED
+  IN        `userID` INT(11) UNSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN
