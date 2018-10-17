@@ -44,10 +44,10 @@ class Utility {
         }
         $privilege                              = $privilege[$m];
         if (in_array('sysadmin',$this->usergroups) || in_array('admin',$this->usergroups)) {
-            return $privilege
+            return $privilege;
         }
-        unset $privilege['sprs'];
-        unset $privilege['usergroups'];
+        unset ($privilege['sprs']);
+        unset ($privilege['usergroups']);
         $access                                     = false;
         foreach ($privileges[$m]['usergroups'] as $privg) {
             foreach ($this->usergroups as $authg) {
@@ -96,16 +96,10 @@ class Utility {
         return $this->hpapi->usergroups;
     }
 
-    public function uuid ($yyyymmdd,$hhmmss) {
-        if (!strlen($yyyymmdd)) {
-            $yyyymmdd                           = $this->hpapi->logtime->format ('Ymd');
-            $hhmmss                             = $this->hpapi->logtime->format ('His');
-        }
+    public function uuid ( ) {
         try {
             $uuid                               = $this->hpapi->dbCall (
                 'hpapiUUID'
-               ,$yyyymmdd
-               ,$hhmmss
             );
         }
         catch (\Exception $e) {
