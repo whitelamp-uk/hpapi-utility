@@ -13,11 +13,6 @@ class Utility {
     public function __destruct ( ) {
     }
 
-    public function authenticate ( ) {
-        // This is a dummay method; \Hpapi\Hpapi authenticates every method
-        return null;
-    }
-
     public function describeMethod ($vendor,$package,$class,$method) {
         $privilege                              = false;
         if (HPAPI_PRIVILEGES_DYNAMIC) {
