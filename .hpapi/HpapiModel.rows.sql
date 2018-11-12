@@ -10,7 +10,6 @@ INSERT IGNORE INTO `hpapi_call` (`model`, `spr`, `vendor`, `package`, `class`, `
 ('HpapiModel',	'hpapiUUID',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'uuid');
 
 INSERT IGNORE INTO `hpapi_method` (`vendor`, `package`, `class`, `method`, `label`, `notes`) VALUES
-('whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'authenticate',	'Verify authentication status',	'Dummy method for getting authStatus without doing anything'),
 ('whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'describeMethod',	'Method description',	'Method, argument and validation details'),
 ('whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myMethods',	'My methods',	'Methods available to the current user.'),
 ('whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myUsergroups',	'My user groups',	'User groups for the current user.'),
@@ -25,7 +24,6 @@ INSERT IGNORE INTO `hpapi_methodarg` (`vendor`, `package`, `class`, `method`, `a
 
 INSERT IGNORE INTO `hpapi_run` (`usergroup`, `vendor`, `package`, `class`, `method`) VALUES
 ('admin',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'usergroups'),
-('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'authenticate'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'describeMethod'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myMethods'),
 ('anon',	'whitelamp-uk',	'hpapi-utility',	'\\Hpapi\\Utility',	'myUsergroups'),
