@@ -9,7 +9,7 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `hpapiMyMethods`$$
 CREATE PROCEDURE `hpapiMyMethods`(
-  IN        `userID` INT(11) UNSIGNED
+  IN        `userId` INT(11) UNSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN
@@ -22,7 +22,7 @@ BEGIN
   LEFT JOIN `hpapi_membership`
          ON authenticated>'0'
         AND `hpapi_membership`.`usergroup`=`hpapi_run`.`usergroup`
-        AND `hpapi_membership`.`user_id`=userID
+        AND `hpapi_membership`.`user_id`=userId
   WHERE `hpapi_membership`.`user_id` IS NOT NULL
      OR `hpapi_run`.`usergroup`='anon'
   GROUP BY `vendor`,`package`,`class`,`method`
@@ -33,7 +33,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `hpapiMyUsergroups`$$
 CREATE PROCEDURE `hpapiMyUsergroups`(
-  IN        `userID` INT(11) UNSIGNED
+  IN        `userId` INT(11) UNSIGNED
  ,IN        `authenticated` INT(1) UNSIGNED
 )
 BEGIN
@@ -49,7 +49,7 @@ BEGIN
              `hpapi_membership`.`usergroup`='anon'
           OR (
                authenticated>'0'
-           AND `hpapi_membership`.`user_id`=userID
+           AND `hpapi_membership`.`user_id`=userId
           )
         )
   LEFT JOIN `hpapi_level` USING (`level`)

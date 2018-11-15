@@ -65,7 +65,7 @@ class Utility {
         try {
             $methods                            = $this->hpapi->dbCall (
                 'hpapiMyMethods'
-               ,$this->hpapi->userID
+               ,$this->hpapi->userId
                ,$authenticated
             );
         }
@@ -81,7 +81,7 @@ class Utility {
         try {
             $usergroups                         = $this->hpapi->dbCall (
                 'hpapiMyUsergroups'
-               ,$this->hpapi->userID
+               ,$this->hpapi->userId
                ,$authenticated
             );
         }
