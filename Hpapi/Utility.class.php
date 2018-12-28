@@ -95,7 +95,7 @@ class Utility {
     }
 
     public function usergroups ( ) {
-        return $this->hpapi->usergroups;
+        return $this->hpapi->groupsAllowed;
     }
 
     public function uuid ( ) {
